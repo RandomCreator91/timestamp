@@ -26,9 +26,27 @@ app.get("/api/hello", function (req, res) {
 
 //coding now
 
+app.get("/api/timestamp", function(req,res){
+var now = new Date();
+res.json({
+  "unix": now.getTime(),
+  "utc": now.toUTCString()
+});
+});
+
 app.get("/api/timestamp/:date_string", function(req,res){
   let dateString = req.params.date_string;
+  let passedInValue = new Date(dateString);
+  if(passedInValue == "Invalid Date"){
+    res.json({"error": "Invalid Date"});
+  }else {
+    res.json({
+      "unix": passedInValue.getTime(),
+      "utc":passedInValue.toUTCString()
+    })
+  }
   console.log(dateString);
+  
   res.json({"error" : "Invalid Date"});
 });
 
